@@ -1,9 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
-import {api_key} from "./config.js";
-import pkg from 'qr-image';
-const {pkg} = pkg;
+import {api_key, qr_url_endpoint} from "./config.js";
+import QRCode from 'qrcode'
 
 const app = express();
 const port = 3000;
@@ -37,7 +36,7 @@ app.post("/weatherbylocation",async(req,res)=>{
 app.post("/weatherbycity",async(req,res)=>{
 
     const cityName =  req.body["city"];
-
+    
 
     try {
         const provinceData = await axios.get(`https://geocode.maps.co/search?q=${cityName}`);
@@ -49,14 +48,15 @@ app.post("/weatherbycity",async(req,res)=>{
         const currentWeatherData = currentWeather.data;
         const dailyWeather = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
         const dailyWeatherData = dailyWeather.data;
-        res.render("index.ejs",{weatherByCity : true, cityName : (city.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, countryName : (city.split(','))[-1] , current_lat: latitude, current_long:longitude})
+        const url = await QRCode.toDataURL( qr_url_endpoint + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
+        res.render("index.ejs",{weatherByCity : true, cityName : (city.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, countryName : (city.split(','))[-1] , current_lat: latitude, current_long:longitude, data_url : url})
     } catch (error) {
         res.render("index.ejs", { errorMessage: error });
     }
     
 });
 
-/*app.get("/qrweather",async(req,res)=>{
+app.get("/qrweather",async(req,res)=>{
     const latitude = req.query.latitude;
     const longitude =  req.query.longitude;
     try {
@@ -71,7 +71,7 @@ app.post("/weatherbycity",async(req,res)=>{
     } catch (error) {
         res.render("index.ejs", { errorMessage: error });
     }
-});*/
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

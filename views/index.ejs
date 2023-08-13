@@ -71,6 +71,13 @@
 
         <%}else if(locals.weatherByCity){ %>
         <%= Math.round((locals.currentWeatherData.main.temp)-273.15) %>
+
+        <div>
+            <img src="<%= locals.data_url%>" alt="">
+        </div>
+        
+
+
         <%}else if(locals.errorMessage){ %>
         <h1><%= locals.errorMessage %></h1>
         <%} %>

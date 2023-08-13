@@ -1,0 +1,2 @@
+export const api_key = 'your_api_key';   //this must be your openweathermap api key
+export const qr_url_endpoint = 'www.your_website.com';                  // this is your base app(website) url, do not add '/' to the end
