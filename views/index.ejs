@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+
+
+
+    <%if(locals.starterPage){ %>
+        <form action="/weatherbycity" method="POST" id="weatherByCityForm">
+            <label for="cityInput">CITY:</label>
+            <input type="text" id="cityInput" name="city">
+      
+            <button type="submit" name="postdata">GET DATA</button>
+
+          </form>
+
+          <form id="weatherByLocationForm" method="POST">
+            <button type="submit" name="getlocationdata">FIND WHEATER BY MY LOCATION</button>
+
+          </form>
+
+        
+        <%}else if(locals.weatherByLocation){ %>
+        
+        <div class="container mt-5">
+            <div class="d-flex flex-row justify-content-center align-items-center"> 
+                <div class="weather__card">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="p-3">
+                            <h2>15&deg;</h2>
+                        </div>
+                        <div class="p-3">
+                            <img src="https://svgur.com/i/oKG.svg">
+                        </div>
+                        <div class="p-3">
+                            <h5>Tuesday, 10 AM</h5>
+                            <h3><%= locals.cityName %> , <%= locals.countryName %></h3>
+                            <span class="weather__description">Mostly Cloudy</span>
+                        </div>
+                    </div>
+                    <div class="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
+                        <div class="p-4 d-flex justify-content-center align-items-center">
+                            <img src="https://svgur.com/i/oHw.svg">
+                            <span>10%</span>
+                        </div>
+                        <div class="p-4 d-flex justify-content-center align-items-center">
+                            <img src="https://svgur.com/i/oH_.svg">
+                            <span>0.53 mB</span>
+                        </div>
+                        <div class="p-4 d-flex justify-content-center align-items-center">
+                            <img src="https://svgur.com/i/oKS.svg">
+                            <span>10 km/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+            
+        
+
+
+        <%}else if(locals.weatherByCity){ %>
+        <%= Math.round((locals.currentWeatherData.main.temp)-273.15) %>
+        <%}else if(locals.errorMessage){ %>
+        <h1><%= locals.errorMessage %></h1>
+        <%} %>
+
+        <script src="/scripts/main.js"></script>
+        <% if(locals.locationAllowed){ %>
+            <script src="/scripts/location.js"></script>
+        <% } %>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
