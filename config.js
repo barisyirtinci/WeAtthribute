@@ -1,0 +1,2 @@
+export const api_key = 'your_openweathermap_api_key';   //this must be your openweathermap api key
+export const website_url = '127.0.0.1:3000';                  // this is your base app(website) url, do not add '/' to the end
