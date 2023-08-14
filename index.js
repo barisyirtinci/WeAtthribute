@@ -51,18 +51,19 @@ app.post("/weatherbycity",async(req,res)=>{
 
     try {
         //get json data with axios from the api servers
-        const provinceData = await axios.get(`https://geocode.maps.co/search?q=${cityName}`);
+        const provinceData = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`);
         const parsedData = provinceData.data;
-        const city = String(parsedData[0].display_name);
+        const city = String(parsedData[0].name);
         const latitude = String(parsedData[0].lat);
         const longitude = String(parsedData[0].lon);
+        const countryName = String(parsedData[0].country);
         const currentWeather = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_key}`);
         const currentWeatherData = currentWeather.data;
-        const dailyWeather = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
+        const dailyWeather = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`);
         const dailyWeatherData = dailyWeather.data;
         const url = await QRCode.toDataURL( website_url + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
         //send data and render index.ejs
-        res.render("index.ejs",{weatherByCity : true, cityName : (city.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, countryName : (city.split(','))[-1] , current_lat: latitude, current_long:longitude, data_url : url})
+        res.render("index.ejs",{weatherByCity : true, cityName : city, currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, countryName : countryName , current_lat: latitude, current_long:longitude, data_url : url})
     } catch (error) {
         //send error if there is an error and render index.ejs
         res.render("index.ejs", { errorMessage: error });

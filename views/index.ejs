@@ -10,6 +10,14 @@
 </head>
 <body>
 
+    <nav class="navbar">
+        <form class="container-fluid" action="/">
+            <button class="navbar-brand" type="submit">
+            <img src="/images/logo.png" alt="WeatherAppLogo" width="30" height="30" class="d-inline-block align-text-top">
+            WeatherApp
+            </button>
+        </form>
+        </nav>
 
 
     <%if(locals.starterPage){ %>
@@ -23,7 +31,7 @@
         
                 <form id="weatherByLocationForm" method="POST">
                     <p class="lead mb-4 fw-semibold">Weather by your current location:</p>
-                  <button type="submit" name="getlocationdata"  class="btn btn-success px-4 gap-3">FIND WEATHER IN MY LOCATION</button>
+                  <button type="submit" name="getlocationdata"  class="btn btn-success px-4 gap-3">Find Weather In My Location</button>
       
                 </form>
             </div>
@@ -35,7 +43,7 @@
                     <p class="lead mb-4 fw-semibold">Weather by city name:</p>
                     <input type="text" id="cityInput" name="city" class="inline form-control" placeholder="City: ">
                     <br>
-                    <button type="submit" name="postdata" class="btn btn-primary">FIND WEATHER</button>
+                    <button type="submit" name="postdata" class="btn btn-primary">Search City</button>
         
                   </form>
             </div>
@@ -47,24 +55,17 @@
         
         <%}else if(locals.weatherByLocation){ %>
 
-        <nav class="navbar">
-            <form class="container-fluid" action="/">
-                <button class="navbar-brand" type="submit">
-                <img src="/images/logo.png" alt="WeatherAppLogo" width="30" height="30" class="d-inline-block align-text-top">
-                WeatherApp
-                </button>
-            </form>
-            </nav>
+
 
         <div class="container mt-5 startPosition">
             <div class="d-flex flex-row justify-content-center align-items-center"> 
                 <div class="weather__card">
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="p-3">
-                            <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
-                        </div>
-                        <div class="p-3">
                             <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
+                        </div>
+                        <div class="p-2" style="background-color: rgb(255, 249, 231); border-radius: 10%; color: black;">
+                            <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
                         </div>
                         <div class="p-3">
                             <h5><%= new Date().toLocaleString('en-us', {weekday:'long'}) + ", " + (new Date()).toLocaleString() %></h5>
@@ -92,13 +93,45 @@
                 
             </div>
             <hr>
-            <p class="lead mb-4 text-center">Qr code for weather in <%=locals.cityName%>:</p>
-            <div class="qr-image d-flex flex-row justify-content-center align-items-center mt-3">
-                <img src="<%= locals.data_url%>" alt="">
-            </div>
+            
         </div>
         
         
+
+        <p class="lead mb-4 text-center">Weather forecast for <%=locals.cityName%>:</p>
+        <div class="weather__forecast d-flex flex-row justify-content-center align-items-center mt-3">
+
+            <% var date = new Date() %>
+            <% var date2 = new Date() %>
+            <%var weatherCode%>
+            <% for(var i =0; i<7; i++){ %>
+                <%weather_code = locals.dailyWeatherData.daily.weathercode[i]%>
+                <div class="p-4 d-flex flex-column justify-content-center align-items-center">
+                    <%date2.setDate(date.getDate() + i) %>
+                    <span><%=date2.toLocaleString('en-us', {weekday:'long'})%></span>
+                    <% if(weather_code<10){ %>
+                        <img src="https://openweathermap.org/img/wn/0<%=weather_code%>d@2x.png">
+                        <%}else{%>
+                        <img src="https://openweathermap.org/img/wn/<%=weather_code%>d@2x.png">
+                        <%}%>
+                    
+                    <span><%=locals.dailyWeatherData.daily.temperature_2m_max[i]%>&deg;C</span>
+                    <span><%=locals.dailyWeatherData.daily.temperature_2m_min[i]%>&deg;C</span>
+                </div>
+                <%}%>
+
+        
+        </div>
+        
+
+        <hr>
+        <p class="lead mb-4 text-center">Qr code for weather in <%=locals.cityName%>:</p>
+            <div class="qr-image d-flex flex-row justify-content-center align-items-center mt-3">
+                <img src="<%= locals.data_url%>" alt="">
+            </div>
+
+
+
             
         <%}else if(locals.weatherByQr){ %>
 
@@ -110,10 +143,10 @@
                     <div class="weather__card">
                         <div class="d-flex flex-row justify-content-center align-items-center">
                             <div class="p-3">
-                                <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
-                            </div>
-                            <div class="p-3">
                                 <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
+                            </div>
+                            <div class="p-2" style="background-color: rgb(255, 249, 231); border-radius: 10%; color: black;">
+                                <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
                             </div>
                             <div class="p-3">
                                 <h5><%= new Date().toLocaleString('en-us', {weekday:'long'}) + ", " + (new Date()).toLocaleString() %></h5>
