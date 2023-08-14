@@ -13,23 +13,50 @@
 
 
     <%if(locals.starterPage){ %>
-        <form action="/weatherbycity" method="POST" id="weatherByCityForm">
-            <label for="cityInput">CITY:</label>
-            <input type="text" id="cityInput" name="city">
+        
+
+          <div class="px-4 py-5 my-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/images/logo.png" alt="">
+            <div class="col-lg-6 mx-auto">
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                
+        
+                <form id="weatherByLocationForm" method="POST">
+                    <p class="lead mb-4 fw-semibold">Weather by your current location:</p>
+                  <button type="submit" name="getlocationdata"  class="btn btn-success px-4 gap-3">FIND WEATHER IN MY LOCATION</button>
       
-            <button type="submit" name="postdata">GET DATA</button>
-
-          </form>
-
-          <form id="weatherByLocationForm" method="POST">
-            <button type="submit" name="getlocationdata">FIND WHEATER BY MY LOCATION</button>
-
-          </form>
+                </form>
+            </div>
+            <br>
+            <hr>
+            <br>
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <form action="/weatherbycity" method="POST" id="weatherByCityForm">
+                    <p class="lead mb-4 fw-semibold">Weather by city name:</p>
+                    <input type="text" id="cityInput" name="city" class="inline form-control" placeholder="City: ">
+                    <br>
+                    <button type="submit" name="postdata" class="btn btn-primary">FIND WEATHER</button>
+        
+                  </form>
+            </div>
+            <hr>
+              
+            </div>
+          </div>
 
         
         <%}else if(locals.weatherByLocation){ %>
-        
-        <div class="container mt-5">
+
+        <nav class="navbar">
+            <form class="container-fluid" action="/">
+                <button class="navbar-brand" type="submit">
+                <img src="/images/logo.png" alt="WeatherAppLogo" width="30" height="30" class="d-inline-block align-text-top">
+                WeatherApp
+                </button>
+            </form>
+            </nav>
+
+        <div class="container mt-5 startPosition">
             <div class="d-flex flex-row justify-content-center align-items-center"> 
                 <div class="weather__card">
                     <div class="d-flex flex-row justify-content-center align-items-center">
@@ -65,12 +92,12 @@
                 
             </div>
             <hr>
-            <div class="qr-image d-flex flex-row justify-content-center align-items-center">
+            <p class="lead mb-4 text-center">Qr code for weather in <%=locals.cityName%>:</p>
+            <div class="qr-image d-flex flex-row justify-content-center align-items-center mt-3">
                 <img src="<%= locals.data_url%>" alt="">
             </div>
         </div>
-
-
+        
         
             
         <%}else if(locals.weatherByQr){ %>

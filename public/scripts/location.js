@@ -1,5 +1,7 @@
 var latpos;
 var longpos;
+
+//function for location data and locationform action attribute
 function getLocationData() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -17,5 +19,6 @@ function getLocationData() {
   }
 }
 
+//run function when load
 getLocationData();
 

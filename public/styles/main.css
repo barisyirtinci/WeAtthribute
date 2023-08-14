@@ -1,4 +1,35 @@
 .weatherNow{
-    max-width: 65px;
-    max-height: 65px;
+    max-width: 70px;
+    max-height: 70px;
+    background-color: white;
+    border-radius: 15%;
 }
+
+body {
+
+    background-color: #F6F4EB;
+    color: #444;
+    font-family: "Segoe UI", sans-serif;    
+  }
+
+  .weather__status img {
+    height: 25px;
+    width: 25x;
+    vertical-align:middle;
+  }
+  .weather__status span {
+    font-weight: 500;
+    color: #3C4048;
+    font-size: .9rem;
+    padding-left: .5rem;
+  }
+
+  .weather__card{
+    border-radius: 2%;
+    background-color: #f5e8d4;
+  }
+  
+  .startPosition{
+    padding-top: 4%;
+  }
+
