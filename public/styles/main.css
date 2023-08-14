@@ -26,10 +26,14 @@ body {
 
   .weather__card{
     border-radius: 2%;
-    background-color: #f5e8d4;
+    background-color: #f5e5cc;
+  }
+
+  .weather_forecast{
+    background-color: #f5e5cc;
   }
   
   .startPosition{
-    padding-top: 4%;
+    
   }
 
