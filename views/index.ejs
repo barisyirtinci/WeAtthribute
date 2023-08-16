@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weatthribute Weather App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -36,8 +35,8 @@
         
                 <form id="weatherByLocationForm" method="POST">
                     <p class="lead mb-4 fw-semibold">Weather by your current location:</p>
-                  <button type="submit" name="getlocationdata"  class="btn btn-success px-4 gap-3">Find Weather In My Location</button>
-      
+                    <button type="submit" name="getlocationdata"  class="btn btn-success px-4 gap-3">Find Weather In My Location</button>
+                    <p id="locationWarning" class="lead mb-4 text-center fw-semibold" style="color:red">! Please allow location information. Otherwise, you can search by city name below. </p>
                 </form>
             </div>
             <br>

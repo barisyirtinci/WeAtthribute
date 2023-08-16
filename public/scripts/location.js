@@ -5,13 +5,12 @@ var longpos;
 function getLocationData() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
+      document.querySelector("#locationWarning").innerHTML="";
       latpos = position.coords.latitude;
       longpos = position.coords.longitude;
       const actionText =
         "/weatherbylocation?latitude=" + latpos + "&longitude=" + longpos;
-      document
-        .querySelector("#weatherByLocationForm")
-        .setAttribute("action", actionText);
+      document.querySelector("#weatherByLocationForm").setAttribute("action", actionText);
       longitude = position.coords.longitude;
     });
   } else {
@@ -21,4 +20,3 @@ function getLocationData() {
 
 //run function when load
 getLocationData();
-

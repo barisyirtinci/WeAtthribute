@@ -36,9 +36,9 @@ app.post("/weatherbylocation",async(req,res)=>{
         const dailyWeatherData = dailyWeather.data;
         const airQuality = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`);
         const airQualityData = airQuality.data;
-        const url = await QRCode.toDataURL( website_url + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
+        const url = await QRCode.toDataURL( website_url + '/qrweather?latitude=' + latitude + '&longitude=' + longitude);
         //send data and render index.ejs
-        res.render("index.ejs",{weatherByLocation : true,cityName : (cityName.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName, current_lat: latitude, current_long:longitude, data_url : url})
+        res.render("index.ejs",{weatherByLocation : true,cityName : cityName, currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName, current_lat: latitude, current_long:longitude, data_url : url})
     } catch (error) {
         //send error if there is an error and render index.ejs
         res.render("index.ejs", { errorMessage: error });
@@ -65,11 +65,11 @@ app.post("/weatherbycity",async(req,res)=>{
         const dailyWeatherData = dailyWeather.data;
         const airQuality = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`);
         const airQualityData = airQuality.data;
-        const url = await QRCode.toDataURL( website_url + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
+        const url = await QRCode.toDataURL( website_url + '/qrweather?latitude=' + latitude + '&longitude=' + longitude);
         //send data and render index.ejs
         res.render("index.ejs",{weatherByCity : true, cityName : city, currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName , current_lat: latitude, current_long:longitude, data_url : url})
     } catch (error) {
-        //send error if there is an error and render index.ejs
+        //send error if there is an error and render index.ejss
         res.render("index.ejs", { errorMessage: error });
     }
     
@@ -90,9 +90,8 @@ app.get("/qrweather",async(req,res)=>{
         const dailyWeatherData = dailyWeather.data;
         const airQuality = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`);
         const airQualityData = airQuality.data;
-        const url = await QRCode.toDataURL( website_url + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
         //send data and render index.ejs
-        res.render("index.ejs",{weatherByQr : true,cityName : (cityName.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName, current_lat: latitude, current_long:longitude, data_url : url})
+        res.render("index.ejs",{weatherByQr : true,cityName : cityName, currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName })
     } catch (error) {
         //send error if there is an error and render index.ejs
         res.render("index.ejs", { errorMessage: error });
