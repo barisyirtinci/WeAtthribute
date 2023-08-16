@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weatthribute Weather App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/styles/main.css">
+    
 </head>
 <body>
 
@@ -51,16 +53,6 @@
                   </form>
             </div>
             <br>
-            <hr>
-            <br>
-            <div class="container text-center">
-                <p class="lead mb-4 text-center">Weatthribute by <a href="mailto:brsyrtnc@gmail.com" class="text-reset">Barış Yırtıncı</a></p>
-                <p class="d-inline p-2"><a href="https://github.com/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Github</a></p>
-                <p class="d-inline"><a href="https://www.linkedin.com/in/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">LinkedIn</a></p>
-            </div>
-
-            </div>
-          </div>
 
         
         <%}else if(locals.weatherByLocation){ %>
@@ -68,77 +60,78 @@
 
 
         
-        <div class="container mt-1 startPosition">
-            <p class="lead mb-4 text-center">Current weather for <%=locals.cityName%>:</p>
-            <div class="d-flex flex-row justify-content-center align-items-center"> 
-                <div class="weather__card">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        <div class="p-3">
-                            <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
+            <div class="container mt-1 startPosition">
+                <p class="lead mb-4 text-center">Current weather for <%=locals.cityName%>:</p>
+                <div class="d-flex flex-row justify-content-center align-items-center startPosition"> 
+                    <div class="weather__card startPosition">
+                        <div class="d-flex flex-row justify-content-center align-items-center startPosition">
+                            <div class="p-3">
+                                <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
+                            </div>
+                            <div class="p-2" style="background-color: rgb(255, 249, 231); border-radius: 10%; color: black;">
+                                <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
+                            </div>
+                            <div class="p-3">
+                                <h5><%= new Date().toLocaleString('en-us', {weekday:'long'}) + ", " + (new Date()).toLocaleString() %></h5>
+                                <h3><%= locals.cityName %>, <%= locals.countryName %></h3>
+                                <span class="weather__description">
+                                    <%= (locals.currentWeatherData.weather)[0].description %>
+                                </span>
+                            </div>
                         </div>
-                        <div class="p-2" style="background-color: rgb(255, 249, 231); border-radius: 10%; color: black;">
-                            <h2><%= Math.round((locals.currentWeatherData.main.temp)-273.15) %> &degC</h2>
+                        <div class="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/feels_like.svg">
+                                <span>
+                                    Feels Like: <%=Math.round((locals.currentWeatherData.main.feels_like)-273.15) %> &degC
+                                </span>
+                            </div>
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/air_quality.svg">
+                                <span>
+                                    <% var airQualityStatus = ["Good","Fair","Moderate","Poor","Very Poor"] %>
+                                    Air Quality: <%= airQualityStatus[(((locals.airQualityData.list)[0].main.aqi)-1)] %>
+                                </span>
+                            </div>
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/pressure.svg">
+                                <span>Pressure: <%=locals.currentWeatherData.main.pressure%>hPa</span>
+                            </div>
                         </div>
-                        <div class="p-3">
-                            <h5><%= new Date().toLocaleString('en-us', {weekday:'long'}) + ", " + (new Date()).toLocaleString() %></h5>
-                            <h3><%= locals.cityName %>, <%= locals.countryName %></h3>
-                            <span class="weather__description">
-                                <%= (locals.currentWeatherData.weather)[0].description %>
-                            </span>
+                        <div class="weather__status d-flex flex-row justify-content-center align-items-center">
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/humidity.svg">
+                                <span>Humidity: %<%=locals.currentWeatherData.main.humidity%></span>
+                            </div>
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/cloudiness.svg">
+                                <span>Cloudiness: %<%=locals.currentWeatherData.clouds.all%></span>
+                            </div>
+                            <div class="p-4 d-flex justify-content-center align-items-center">
+                                <img src="/images/wind.svg">
+                                <span>Wind: <%=locals.currentWeatherData.wind.speed%>m/s</span>
+                            </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/feels_like.svg">
-                            <span>
-                                Feels Like: <%=Math.round((locals.currentWeatherData.main.feels_like)-273.15) %> &degC
-                            </span>
-                        </div>
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/air_quality.svg">
-                            <span>
-                                <% var airQualityStatus = ["Good","Fair","Moderate","Poor","Very Poor"] %>
-                                Air Quality: <%= airQualityStatus[(((locals.airQualityData.list)[0].main.aqi)-1)] %>
-                            </span>
-                        </div>
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/pressure.svg">
-                            <span>Pressure: <%=locals.currentWeatherData.main.pressure%>hPa</span>
-                        </div>
-                    </div>
-                    <div class="weather__status d-flex flex-row justify-content-center align-items-center">
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/humidity.svg">
-                            <span>Humidity: %<%=locals.currentWeatherData.main.humidity%></span>
-                        </div>
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/cloudiness.svg">
-                            <span>Cloudiness: %<%=locals.currentWeatherData.clouds.all%></span>
-                        </div>
-                        <div class="p-4 d-flex justify-content-center align-items-center">
-                            <img src="/images/wind.svg">
-                            <span>Wind: <%=locals.currentWeatherData.wind.speed%>m/s</span>
-                        </div>
-                        </div>
-                    </div>
+                    
                 </div>
+                <hr>
                 
             </div>
-            <hr>
             
-        </div>
         
         
 
-        <div class="container">
-            <p class="lead mb-4 text-center"></p>
-            <div class="weather_forecast d-flex flex-row justify-content-center align-items-center">
+        
+        <div class="container p-3">
+            <div class="weather_forecast grid p-2 row d-flex flex-row justify-content-center align-items-center">
     
                 <% var date = new Date() %>
                 <% var date2 = new Date() %>
                 <% for(var i =0; i<7; i++){ %>
                     
-                    <div class="p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
+                    <div class="dailyData col p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
                         <%date2.setDate(date.getDate() + i) %>
                         <span class="fw-bold"><%=date2.toLocaleString('en-us', {weekday:'long'})%></span>
                         <span><%=locals.dailyWeatherData.daily.temperature_2m_max[i]%>&deg;C</span>
@@ -147,7 +140,6 @@
                     <%}%>
             </div>
         </div>
-
         
 
         <hr>
@@ -159,24 +151,14 @@
         </div>
         
 
-        <hr>
-        <br>
-        <div class="container text-center">
-            <p class="lead mb-4 text-center">Weatthribute by <a href="mailto:brsyrtnc@gmail.com" class="text-reset">Barış Yırtıncı</a></p>
-            <p class="d-inline p-2"><a href="https://github.com/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Github</a></p>
-            <p class="d-inline"><a href="https://www.linkedin.com/in/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">LinkedIn</a></p>
-        </div>
-
-
-
             
         <%}else if(locals.weatherByQr){ %>
 
             <div class="container mt-1 startPosition">
                 <p class="lead mb-4 text-center">Current weather for <%=locals.cityName%>:</p>
-                <div class="d-flex flex-row justify-content-center align-items-center"> 
-                    <div class="weather__card">
-                        <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="d-flex flex-row justify-content-center align-items-center startPosition"> 
+                    <div class="weather__card startPosition">
+                        <div class="d-flex flex-row justify-content-center align-items-center startPosition">
                             <div class="p-3">
                                 <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
                             </div>
@@ -232,34 +214,30 @@
                 
             </div>
             
-            
-    
-            <div class="container">
-                <p class="lead mb-4 text-center"></p>
-                <div class="weather_forecast d-flex flex-row justify-content-center align-items-center">
         
-                    <% var date = new Date() %>
-                    <% var date2 = new Date() %>
-                    <% for(var i =0; i<7; i++){ %>
-                        
-                        <div class="p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
-                            <%date2.setDate(date.getDate() + i) %>
-                            <span class="fw-bold"><%=date2.toLocaleString('en-us', {weekday:'long'})%></span>
-                            <span><%=locals.dailyWeatherData.daily.temperature_2m_max[i]%>&deg;C</span>
-                            <span><%=locals.dailyWeatherData.daily.temperature_2m_min[i]%>&deg;C</span>
-                        </div>
-                        <%}%>
-                </div>
-            </div>
+        
+
+        
+        <div class="container p-3">
+            <div class="weather_forecast grid p-2 row d-flex flex-row justify-content-center align-items-center">
     
-            <hr>
-            <br>
-            <div class="container text-center">
-                <p class="lead mb-4 text-center">© Weatthribute by <a href="mailto:brsyrtnc@gmail.com" class="text-reset">Barış Yırtıncı</a></p>
-                <p class="d-inline p-2"><a href="https://github.com/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Github</a></p>
-                <p class="d-inline"><a href="https://www.linkedin.com/in/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">LinkedIn</a></p>
+                <% var date = new Date() %>
+                <% var date2 = new Date() %>
+                <% for(var i =0; i<7; i++){ %>
+                    
+                    <div class="dailyData col p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
+                        <%date2.setDate(date.getDate() + i) %>
+                        <span class="fw-bold"><%=date2.toLocaleString('en-us', {weekday:'long'})%></span>
+                        <span><%=locals.dailyWeatherData.daily.temperature_2m_max[i]%>&deg;C</span>
+                        <span><%=locals.dailyWeatherData.daily.temperature_2m_min[i]%>&deg;C</span>
+                    </div>
+                    <%}%>
             </div>
+        </div>
+        
+
     
+
     
 
 
@@ -271,9 +249,9 @@
         
             <div class="container mt-1 startPosition">
                 <p class="lead mb-4 text-center">Current weather for <%=locals.cityName%>:</p>
-                <div class="d-flex flex-row justify-content-center align-items-center"> 
-                    <div class="weather__card">
-                        <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="d-flex flex-row justify-content-center align-items-center startPosition"> 
+                    <div class="weather__card startPosition">
+                        <div class="d-flex flex-row justify-content-center align-items-center startPosition">
                             <div class="p-3">
                                 <img class="weatherNow" src="https://openweathermap.org/img/wn/<%=(locals.currentWeatherData.weather)[0].icon%>@2x.png">
                             </div>
@@ -331,15 +309,14 @@
             
             
     
-            <div class="container">
-                <p class="lead mb-4 text-center"></p>
-                <div class="weather_forecast d-flex flex-row justify-content-center align-items-center">
+            <div class="container p-3">
+                <div class="weather_forecast grid p-2 row d-flex flex-row justify-content-center align-items-center">
         
                     <% var date = new Date() %>
                     <% var date2 = new Date() %>
                     <% for(var i =0; i<7; i++){ %>
                         
-                        <div class="p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
+                        <div class="dailyData col p-3 d-flex flex-column justify-content-center align-items-center m-4 border border-secondary">
                             <%date2.setDate(date.getDate() + i) %>
                             <span class="fw-bold"><%=date2.toLocaleString('en-us', {weekday:'long'})%></span>
                             <span><%=locals.dailyWeatherData.daily.temperature_2m_max[i]%>&deg;C</span>
@@ -360,20 +337,22 @@
             </div>
             
     
-            <hr>
-            <br>
-            <div class="container text-center">
-                <p class="lead mb-4 text-center">Weatthribute by <a href="mailto:brsyrtnc@gmail.com" class="text-reset">Barış Yırtıncı</a></p>
-                <p class="d-inline p-2"><a href="https://github.com/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Github</a></p>
-                <p class="d-inline"><a href="https://www.linkedin.com/in/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">LinkedIn</a></p>
-            </div>
-    
+
     
     
 
         <%}else if(locals.errorMessage){ %>
         <h3><%= locals.errorMessage %></h3>
         <%} %>
+
+        <hr>
+        <br>
+        <div class="container text-center">
+            <p class="lead mb-4 text-center">© Weatthribute by <a href="mailto:brsyrtnc@gmail.com" class="text-reset">Barış Yırtıncı</a></p>
+            <p class="d-inline p-2"><a href="https://github.com/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Github</a></p>
+            <p class="d-inline"><a href="https://www.linkedin.com/in/barisyirtinci" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">LinkedIn</a></p>
+        </div>
+
 
         <script src="/scripts/main.js"></script>
         <% if(locals.locationAllowed){ %>

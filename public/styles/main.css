@@ -25,6 +25,7 @@ body {
   }
 
   .weather__card{
+
     border-radius: 2%;
     background-color: #f5e5cc;
   }
@@ -37,3 +38,12 @@ body {
     
   }
 
+  @media (max-width: 576px) {
+    .startPosition {
+      
+    }
+  }
+
+  .dailyData{
+    max-width: 30%;
+  }

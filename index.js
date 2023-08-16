@@ -8,7 +8,7 @@ import {api_key, website_url} from "./config.js";
 import QRCode from 'qrcode'
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //use public folder for static files
 app.use(express.static("public"));
@@ -90,9 +90,9 @@ app.get("/qrweather",async(req,res)=>{
         const dailyWeatherData = dailyWeather.data;
         const airQuality = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`);
         const airQualityData = airQuality.data;
-        console.log(dailyWeatherData.daily.weathercode)[0];
+        const url = await QRCode.toDataURL( website_url + '/qrweather/?latitude=' + latitude + '&longitude=' + longitude);
         //send data and render index.ejs
-        res.render("index.ejs",{weatherByQr : true,cityName : (cityName.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName })
+        res.render("index.ejs",{weatherByQr : true,cityName : (cityName.split(','))[0], currentWeatherData : currentWeatherData, dailyWeatherData : dailyWeatherData, airQualityData:airQualityData, countryName : countryName, current_lat: latitude, current_long:longitude, data_url : url})
     } catch (error) {
         //send error if there is an error and render index.ejs
         res.render("index.ejs", { errorMessage: error });
@@ -104,5 +104,4 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
   
-
 
